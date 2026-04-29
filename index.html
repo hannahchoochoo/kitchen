@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FAF7F2">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Hannah's Kitchen">
+<title>한나의 키친 · Hannah's Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=DM+Sans:wght@400;500;600&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --bg-soft: #F2EDE3;
+    --ink: #1F1B16;
+    --ink-soft: #5A5147;
+    --line: #E0D6C5;
+    --gochujang: #B23A2C;
+    --tan: #8B7355;
+    --gold: #C8973F;
+    --green: #6B7E3F;
+
+    /* Modern theme (default) */
+    --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+    --font-kr: 'Pretendard', sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --display-tracking: -0.02em;
+    --display-weight: 700;
+  }
+  [data-theme="editorial"] {
+    --font-display: 'Fraunces', serif;
+    --font-kr: 'Gowun Batang', serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --display-tracking: -0.01em;
+    --display-weight: 600;
+  }
+  [data-theme="cozy"] {
+    --font-display: 'DM Serif Display', serif;
+    --font-kr: 'Gowun Dodum', sans-serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --display-tracking: 0;
+    --display-weight: 400;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 6rem;
+  }
+  .kr { font-family: var(--font-kr); }
+  .display { font-family: var(--font-display); letter-spacing: var(--display-tracking); font-weight: var(--display-weight); }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 3.5rem 1.5rem 2rem;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .icon-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    transition: all 0.2s;
+  }
+  .icon-btn:hover { border-color: var(--ink); color: var(--ink); }
+  header .ornament {
+    color: var(--gochujang);
+    font-size: 1.25rem;
+    letter-spacing: 0.4em;
+    margin-bottom: 1rem;
+  }
+  header h1 {
+    font-family: var(--font-kr);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  header .en {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+  }
+  header .tagline {
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--tan);
+    font-weight: 500;
+  }
+
+  /* FILTER BAR */
+  .controls {
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 1rem;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(250, 247, 242, 0.92);
+  }
+  .search {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 0.75rem;
+    display: block;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background: var(--bg);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search:focus { border-color: var(--gochujang); }
+  .filters {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.25rem 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    align-items: center;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    color: var(--ink-soft);
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--ink-soft); }
+  .chip.active {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .picker {
+    background: var(--gochujang);
+    color: var(--bg);
+    padding: 0.45rem 0.95rem;
+    border: none;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+    margin-left: auto;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .picker:hover { opacity: 0.85; }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+  .section { margin-bottom: 3.5rem; }
+  .section.hidden { display: none; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-header .kr {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  .section-header .en {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  /* RECIPE CARDS */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .card {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: padding-left 0.2s;
+  }
+  .card:hover { padding-left: 0.5rem; }
+  .card.hidden { display: none; }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .card-name { flex: 1; }
+  .card-name .kr {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
+  }
+  .card-name .en {
+    font-family: var(--font-display);
+    color: var(--ink-soft);
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .card-meta {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: var(--tan);
+    text-align: right;
+  }
+  .card-desc {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+  .card-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 0.72rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+  .tag.spicy { background: #F4E0DD; color: var(--gochujang); }
+  .tag.veg { background: #E5EBD7; color: var(--green); }
+  .tag.batch { background: #F0E5D0; color: var(--gold); }
+  .tag.freezer { background: #E0E8EE; color: #4A6B85; }
+  .tag.quick { background: #FAEDC8; color: #8B6F1F; }
+
+  /* MODAL (recipe view) */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31, 27, 22, 0.6);
+    display: none;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: block; }
+  .modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 600px;
+    background: var(--bg);
+    overflow-y: auto;
+    z-index: 101;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal.open { transform: translateX(0); }
+  .modal-header {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+  }
+  .modal-close {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { background: var(--ink); color: var(--bg); }
+  .modal-back {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .modal-body { padding: 2rem 1.5rem 4rem; }
+  .modal-body .recipe-name-kr {
+    font-family: var(--font-kr);
+    font-weight: 700;
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+  .modal-body .recipe-name-en {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.25rem;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+  }
+  .modal-body .recipe-desc {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+  }
+  .modal-body .recipe-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-item .label {
+    color: var(--tan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+  }
+  .meta-item .value { color: var(--ink); font-weight: 500; }
+  .modal-body h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin: 1.75rem 0 0.75rem;
+    color: var(--gochujang);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .add-list-btn {
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    cursor: pointer;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s;
+  }
+  .add-list-btn:hover { opacity: 0.85; }
+  .add-list-btn.added { background: var(--green); }
+  .modal-body ul, .modal-body ol { padding-left: 1.25rem; margin-bottom: 1rem; }
+  .modal-body li { margin-bottom: 0.5rem; line-height: 1.65; }
+  .modal-body .note {
+    background: var(--bg-soft);
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--gochujang);
+    border-radius: 4px;
+    font-size: 0.92rem;
+    margin: 1.25rem 0;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  /* SHOPPING FAB */
+  .fab {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    cursor: pointer;
+    z-index: 80;
+    box-shadow: 0 8px 24px rgba(31, 27, 22, 0.25);
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .fab:hover { transform: scale(1.05); }
+  .fab .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--gochujang);
+    color: var(--bg);
+    font-size: 0.72rem;
+    font-weight: 600;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg);
+    font-family: var(--font-body);
+  }
+  .fab .badge.empty { display: none; }
+
+  /* SHOPPING PANEL */
+  .sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(31, 27, 22, 0.5);
+    display: none;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .sheet-overlay.open { display: block; }
+  .sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 85vh;
+    background: var(--bg);
+    border-radius: 24px 24px 0 0;
+    z-index: 101;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 -8px 32px rgba(31, 27, 22, 0.2);
+  }
+  .sheet.open { transform: translateY(0); }
+  .sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--line);
+    border-radius: 999px;
+    margin: 0.75rem auto 0;
+  }
+  .sheet-head {
+    padding: 1rem 1.5rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sheet-head h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .sheet-head .meta {
+    font-size: 0.85rem;
+    color: var(--tan);
+  }
+  .add-input-wrap {
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .add-input {
+    flex: 1;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    background: var(--bg);
+    color: var(--ink);
+    outline: none;
+  }
+  .add-input:focus { border-color: var(--gochujang); }
+  .add-btn {
+    padding: 0.65rem 1.1rem;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 0.88rem;
+  }
+  .sheet-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 1.5rem 1rem;
+  }
+  .cat-group { margin-bottom: 1.25rem; }
+  .cat-head {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--tan);
+    margin: 1rem 0 0.5rem;
+    font-weight: 600;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--bg-soft);
+    cursor: pointer;
+  }
+  .item:last-child { border-bottom: none; }
+  .item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--gochujang);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .item-text {
+    flex: 1;
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+  .item-source {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--tan);
+    margin-top: 0.15rem;
+    font-style: italic;
+  }
+  .item.checked .item-text {
+    text-decoration: line-through;
+    color: var(--tan);
+  }
+  .item-remove {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.25rem 0.5rem;
+    opacity: 0.6;
+  }
+  .item-remove:hover { opacity: 1; color: var(--gochujang); }
+  .empty-list {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--ink-soft);
+  }
+  .empty-list .kr { font-size: 1.5rem; margin-bottom: 0.5rem; font-family: var(--font-kr); }
+  .sheet-foot {
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 0.5rem;
+    background: var(--bg);
+  }
+  .sheet-foot button {
+    flex: 1;
+    padding: 0.7rem;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    transition: all 0.2s;
+  }
+  .sheet-foot button:hover { border-color: var(--ink); }
+  .sheet-foot .copy-btn {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  /* SETTINGS */
+  .settings-sheet { max-height: 70vh; }
+  .theme-card {
+    border: 1px solid var(--line);
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .theme-card:hover { border-color: var(--ink-soft); }
+  .theme-card.active { border-color: var(--gochujang); border-width: 2px; padding: calc(1.25rem - 1px); }
+  .theme-card .name {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--tan);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  .theme-card .preview-kr {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .theme-card .preview-en {
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+  .theme-card[data-preview="modern"] .preview-kr { font-family: 'Pretendard', sans-serif; }
+  .theme-card[data-preview="modern"] .preview-en { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-style: normal; letter-spacing: -0.02em; }
+  .theme-card[data-preview="editorial"] .preview-kr { font-family: 'Gowun Batang', serif; }
+  .theme-card[data-preview="editorial"] .preview-en { font-family: 'Fraunces', serif; }
+  .theme-card[data-preview="cozy"] .preview-kr { font-family: 'Gowun Dodum', sans-serif; font-weight: 400; }
+  .theme-card[data-preview="cozy"] .preview-en { font-family: 'DM Serif Display', serif; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 5.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    z-index: 200;
+    transition: transform 0.3s ease;
+    box-shadow: 0 8px 24px rgba(31, 27, 22, 0.2);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 3rem 1.5rem 2rem;
+    color: var(--tan);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  footer .divider { display: inline-block; margin: 0 0.5rem; color: var(--line); }
+
+  .empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--ink-soft);
+    display: none;
+  }
+  .empty.show { display: block; }
+  .empty .kr { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+  @media (min-width: 768px) {
+    .controls { padding: 1.25rem 2rem; }
+    main { padding: 3rem 2rem; }
+    .sheet { max-width: 600px; left: 50%; transform: translate(-50%, 100%); border-radius: 24px; bottom: 1rem; }
+    .sheet.open { transform: translate(-50%, 0); }
+  }
+  @media (max-width: 480px) {
+    header { padding: 2.5rem 1rem 1.5rem; }
+    .card-header { flex-direction: column; gap: 0.25rem; align-items: flex-start; }
+    .card-meta { text-align: left; }
+    .modal-body .recipe-name-kr { font-size: 1.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <button class="icon-btn" id="settings-btn" title="Settings">⚙</button>
+  <div class="ornament">· ❉ ·</div>
+  <h1>한나의 키친</h1>
+  <div class="en">Hannah's Kitchen</div>
+  <div class="tagline">Korean + Fusion · Home Cooking</div>
+</header>
+
+<div class="controls">
+  <input type="search" class="search" id="search" placeholder="Search dishes...">
+  <div class="filters" id="filters">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="quick">⚡ Quick</button>
+    <button class="chip" data-filter="batch">🔄 Batch</button>
+    <button class="chip" data-filter="freezer">❄️ Freezer</button>
+    <button class="chip" data-filter="spicy">🌶 Spicy</button>
+    <button class="chip" data-filter="veg">🌱 Veggie</button>
+    <button class="picker" id="surprise">✨ Surprise</button>
+  </div>
+</div>
+
+<main id="main"></main>
+
+<div class="empty" id="empty">
+  <div class="kr">아무것도 없어요</div>
+  <div>Nothing matches that — try clearing filters</div>
+</div>
+
+<!-- Recipe Modal -->
+<div class="modal-overlay" id="overlay"></div>
+<div class="modal" id="modal">
+  <div class="modal-header">
+    <span class="modal-back">← Recipe</span>
+    <button class="modal-close" id="close">✕</button>
+  </div>
+  <div class="modal-body" id="modal-body"></div>
+</div>
+
+<!-- Shopping FAB -->
+<button class="fab" id="fab" title="Shopping list">
+  🛒
+  <span class="badge empty" id="fab-badge">0</span>
+</button>
+
+<!-- Shopping Sheet -->
+<div class="sheet-overlay" id="sheet-overlay"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head">
+    <h2>Shopping List</h2>
+    <span class="meta" id="list-meta">0 items</span>
+  </div>
+  <div class="add-input-wrap">
+    <input type="text" class="add-input" id="add-input" placeholder="Add custom item...">
+    <button class="add-btn" id="add-custom">Add</button>
+  </div>
+  <div class="sheet-body" id="sheet-body"></div>
+  <div class="sheet-foot">
+    <button id="clear-checked">Clear checked</button>
+    <button id="clear-all">Clear all</button>
+    <button class="copy-btn" id="copy-list">📋 Copy</button>
+  </div>
+</div>
+
+<!-- Settings Sheet -->
+<div class="sheet-overlay" id="settings-overlay"></div>
+<div class="sheet settings-sheet" id="settings-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-head">
+    <h2>Theme</h2>
+    <span class="meta">Choose your vibe</span>
+  </div>
+  <div class="sheet-body">
+    <div class="theme-card" data-theme="modern" data-preview="modern">
+      <div class="name">Modern</div>
+      <div class="preview-kr">한나의 키친</div>
+      <div class="preview-en">Hannah's Kitchen</div>
+    </div>
+    <div class="theme-card" data-theme="editorial" data-preview="editorial">
+      <div class="name">Editorial</div>
+      <div class="preview-kr">한나의 키친</div>
+      <div class="preview-en">Hannah's Kitchen</div>
+    </div>
+    <div class="theme-card" data-theme="cozy" data-preview="cozy">
+      <div class="name">Cozy</div>
+      <div class="preview-kr">한나의 키친</div>
+      <div class="preview-en">Hannah's Kitchen</div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  Made with <span style="color: var(--gochujang);">♥</span> in Seattle
+  <span class="divider">·</span>
+  <span class="kr">잘 먹겠습니다</span>
+</footer>
+
+<script>
+const SECTIONS = {
+  banchan: { kr: "반찬", en: "Small Plates & Sides" },
+  soup: { kr: "국 · 찌개", en: "Soups & Stews" },
+  protein: { kr: "단백질", en: "Proteins" },
+  bowl: { kr: "덮밥", en: "Rice Bowls" },
+  curry: { kr: "카레", en: "Curry" },
+  noodle: { kr: "면 · 죽", en: "Noodles & Porridge" },
+  fusion: { kr: "퓨전", en: "Fusion Kitchen" },
+  lazy: { kr: "라이트 나이트", en: "Lazy Night Rescues" }
+};
+
+const RECIPES = [
+  { id: "spinach", section: "banchan", kr: "시금치나물", en: "Blanched Spinach", desc: "Tender spinach tossed in sesame, garlic, soy.", time: "10 min", tags: ["veg", "quick"], serves: "4 sides", keeps: "4 days fridge",
+    ingredients: ["1 bag (5oz) fresh spinach", "1 tsp soy sauce", "1 tsp sesame oil", "½ tsp minced garlic", "Sesame seeds"],
+    method: ["Boil water. Blanch spinach 30 seconds.", "Transfer to ice bath. Squeeze dry — really squeeze.", "Chop roughly. Toss with seasoning."] },
+  { id: "sprouts", section: "banchan", kr: "콩나물무침", en: "Seasoned Bean Sprouts", desc: "Crisp sprouts with sesame oil and a kick of gochugaru.", time: "10 min", tags: ["veg", "quick"], serves: "4 sides", keeps: "4 days fridge",
+    ingredients: ["2 cups bean sprouts", "1 tsp soy sauce", "1 tsp sesame oil", "½ tsp garlic", "Pinch gochugaru", "Green onion"],
+    method: ["Boil bean sprouts 3 min — keep the crunch.", "Drain, cool slightly.", "Toss with seasoning."] },
+  { id: "potatoes", section: "banchan", kr: "감자조림", en: "Sweet-Soy Braised Potatoes", desc: "Potatoes slow-glazed until sticky and caramelized.", time: "25 min", tags: ["veg", "batch"], serves: "4 sides", keeps: "5 days fridge",
+    ingredients: ["3 medium potatoes, peeled + 1-inch cubes", "2 tbsp soy sauce", "1 tbsp sugar", "1 tsp sesame oil", "1 tsp garlic", "¼ cup water"],
+    method: ["Add everything to pan over medium heat.", "Stir occasionally. Cook ~20 min until potatoes are soft and sauce is glossy.", "If sauce disappears before potatoes are done, add splash of water.", "Finish with sesame seeds + green onion."] },
+  { id: "egg-roll", section: "banchan", kr: "계란말이", en: "Rolled Egg Omelette", desc: "Soft layered egg roll with green onion.", time: "10 min", tags: ["quick"], serves: "2", keeps: "3 days fridge",
+    ingredients: ["3 eggs", "Pinch salt + pinch sugar", "Optional: green onion, diced carrot, spinach"],
+    method: ["Beat eggs well with salt + sugar.", "Heat non-stick pan to medium. Brush with oil.", "Pour thin layer of egg — swirl to cover.", "When almost set, start rolling from one edge.", "Push roll to one side, add more egg, let set, roll again.", "Repeat until egg used. Cool slightly. Slice."] },
+  { id: "cucumber", section: "banchan", kr: "오이무침", en: "Spicy Cucumber Salad", desc: "Salted cucumber with vinegar and chili — bright and crunchy.", time: "10 min", tags: ["veg", "quick", "spicy"], serves: "4 sides", keeps: "2 days fridge",
+    ingredients: ["2 cucumbers", "1 tsp salt", "1 tsp gochugaru", "1 tsp soy sauce", "1 tsp sesame oil", "½ tsp garlic", "1 tsp rice vinegar"],
+    method: ["Slice cucumber thin. Toss with salt. Wait 10 min.", "Squeeze out all liquid.", "Toss with remaining seasonings."] },
+  { id: "zucchini", section: "banchan", kr: "호박볶음", en: "Stir-Fried Zucchini", desc: "Lightly caramelized zucchini, sesame-scented.", time: "10 min", tags: ["veg", "quick"], serves: "4 sides", keeps: "3 days fridge",
+    ingredients: ["2 zucchini, half-moons", "½ tsp salt", "1 tsp sesame oil", "1 tsp garlic", "Pinch gochugaru"],
+    method: ["Toss zucchini with salt. Rest 5 min. Pat dry.", "Stir-fry in sesame oil on medium-high, 5 min.", "Add garlic last minute.", "Finish with gochugaru + sesame seeds."] },
+  { id: "mushrooms", section: "banchan", kr: "버섯볶음", en: "Butter-Seared Mushrooms", desc: "High-heat golden mushrooms in butter and soy.", time: "10 min", tags: ["veg", "quick"], serves: "4 sides", keeps: "3 days fridge",
+    ingredients: ["2 cups mushrooms, sliced", "1 tbsp butter", "1 tsp soy sauce", "½ tsp garlic", "1 tsp sesame oil"],
+    method: ["Get pan HOT. Add butter.", "Add mushrooms in single layer — don't crowd.", "Don't stir for 2 min. Let them get golden.", "Flip. Add garlic, cook 1 min. Add soy + sesame oil. Toss."] },
+  { id: "tofu-pan", section: "banchan", kr: "두부부침", en: "Crispy Pan-Fried Tofu", desc: "Golden tofu slabs with soy-sesame dipping sauce.", time: "10 min", tags: ["veg", "quick"], serves: "2", keeps: "2 days fridge",
+    ingredients: ["1 block firm tofu, sliced ½ inch thick", "Salt, vegetable oil", "Dipping sauce: 2 tbsp soy + 1 tsp sesame oil + green onion + gochugaru"],
+    method: ["Press tofu between paper towels at least 5 min.", "Salt both sides lightly.", "Pan-fry in hot oil, 3 min per side. Don't touch until it releases.", "Serve with dipping sauce."] },
+  { id: "soy-eggs", section: "banchan", kr: "달걀장조림", en: "Soy-Braised Eggs", desc: "Eggs slow-simmered in sweet soy — gets better every day.", time: "20 min + steep", tags: ["batch"], serves: "6 eggs", keeps: "1 week fridge",
+    ingredients: ["6 eggs", "½ cup soy sauce", "½ cup water", "1 tbsp sugar", "1 tsp garlic", "Optional: gochugaru, mirin, dried chilies"],
+    method: ["Hard-boil: cover with cold water, bring to boil, cook 10 min, ice bath, peel.", "Combine soy, water, sugar, garlic in pot. Bring to gentle boil.", "Add peeled eggs. Simmer 15 min, turning.", "Cool eggs in liquid. Store with sauce."],
+    note: "Save the leftover soy brine — use it for fried rice or noodle sauce." },
+  { id: "fishcake", section: "banchan", kr: "어묵볶음", en: "Stir-Fried Fish Cake", desc: "Savory fish cake strips tossed in a sweet-spicy glaze.", time: "10 min", tags: ["quick", "batch"], serves: "4 sides", keeps: "5 days fridge",
+    ingredients: ["2–3 fish cake sheets (어묵), sliced into strips", "1 tbsp soy sauce", "1 tsp sugar", "1 tsp sesame oil", "½ tsp gochugaru", "Green onion"],
+    method: ["Stir-fry fish cake in a little oil, 3 min.", "Add soy + sugar. Toss 1–2 min until glazed.", "Add sesame oil + gochugaru at the end."] },
+  { id: "anchovies", section: "banchan", kr: "멸치볶음", en: "Caramelized Dried Anchovies", desc: "Tiny anchovies toasted and glazed in honey-soy.", time: "10 min", tags: ["batch"], serves: "8 sides", keeps: "2 weeks fridge",
+    ingredients: ["1 cup small dried anchovies (잔멸치)", "1 tbsp soy sauce", "1 tbsp honey", "1 tsp sesame oil", "1 tsp garlic", "Sesame seeds"],
+    method: ["Dry-toast anchovies in pan (no oil) over medium, 3 min.", "Push to edge. Add garlic to center, cook 30 sec.", "Add soy + honey. Toss everything 1–2 min.", "Off heat. Drizzle sesame oil + sprinkle sesame seeds."] },
+
+  { id: "doenjang", section: "soup", kr: "된장찌개", en: "Doenjang Jjigae", desc: "Fermented soybean broth with tofu, zucchini, mushroom — the everyday classic.", time: "20 min", tags: ["batch"], serves: "4", keeps: "5 days fridge",
+    ingredients: ["3 cups anchovy broth", "2 tbsp doenjang", "1 tsp gochujang (optional)", "½ block firm tofu, cubed", "1 zucchini, half-moons", "½ onion, chunked", "4–5 mushrooms", "2 tsp garlic"],
+    method: ["Heat broth. Dissolve doenjang by pressing through spoon or strainer.", "Add garlic + onion. Simmer 5 min.", "Add zucchini + mushrooms. Simmer 7 min.", "Add tofu. Simmer 3 more min.", "Taste — more doenjang for depth, more gochujang for heat."],
+    note: "Serve with steamed rice + kimchi. That's the whole meal." },
+  { id: "sundubu", section: "soup", kr: "순두부찌개", en: "Soft Tofu Stew", desc: "Silky tofu in a deep red spicy broth, cracked egg on top.", time: "20 min", tags: ["spicy", "batch"], serves: "4", keeps: "4 days fridge",
+    ingredients: ["1 tube soft tofu (순두부)", "½ cup kimchi, chopped", "2 tbsp gochugaru", "1 tbsp soy sauce", "1 tsp garlic", "2 cups anchovy broth", "1 egg per serving", "Sesame oil"],
+    method: ["Sauté kimchi in sesame oil, 2 min.", "Add gochugaru + garlic. Cook 1 min.", "Add broth. Bring to boil.", "Spoon in soft tofu in chunks — don't stir, just nestle.", "Crack egg in at end. Cook 1–2 min, keep yolk runny."] },
+  { id: "miyeok", section: "soup", kr: "미역국", en: "Seaweed Soup", desc: "Clean beef and seaweed broth — humble, restorative.", time: "30 min", tags: ["batch"], serves: "5", keeps: "5 days fridge",
+    ingredients: ["¼ cup dried miyeok, soaked 10 min, drained, chopped", "½ lb beef brisket or flank, sliced", "1 tbsp sesame oil", "1 tbsp soy sauce", "1 tsp garlic", "5–6 cups water"],
+    method: ["Sauté garlic + beef in sesame oil ~2 min.", "Add drained seaweed. Stir 1 min — it shrinks a lot.", "Add water + soy sauce.", "Simmer 20 min on medium. Salt to taste."],
+    note: "If eating multiple days, add sesame oil at the table — it can turn bitter when stored." },
+  { id: "budae", section: "soup", kr: "부대찌개", en: "Army Stew", desc: "Spam, kimchi, tofu, beans, ramen — the everything stew.", time: "25 min", tags: ["spicy"], serves: "2–3", keeps: "Best fresh",
+    ingredients: ["2 cups anchovy or chicken broth", "1 tbsp gochujang", "1 tbsp gochugaru", "1 tbsp soy sauce", "1 tsp garlic", "½ can Spam, sliced", "½ can baked beans", "½ block tofu, sliced", "Big handful kimchi", "1 pack instant ramen (noodles only)", "1 slice American cheese (optional)"],
+    method: ["In wide pot, layer everything except noodles + cheese.", "Mix sauce and pour over.", "Add broth. Boil, cook 5 min.", "Add noodles on top. Cook 3 min.", "Lay cheese on top at end. Let melt."] },
+  { id: "kongnamul-soup", section: "soup", kr: "콩나물국", en: "Bean Sprout Soup", desc: "Clear, delicate broth — four ingredients, ten minutes.", time: "10 min", tags: ["veg", "quick"], serves: "4", keeps: "3 days fridge",
+    ingredients: ["2 cups bean sprouts", "3 cups anchovy broth or water", "½ tsp dashima powder", "1 tsp garlic", "Pinch gochugaru", "Salt, green onion, sesame oil"],
+    method: ["Bring broth to boil.", "Add bean sprouts, garlic, gochugaru.", "Cook 7 min — keep slight crunch.", "Salt to taste. Top with green onion + sesame oil."] },
+  { id: "kimchi-soup", section: "soup", kr: "김치국", en: "Kimchi Soup", desc: "Light ripe-kimchi broth with soft tofu.", time: "15 min", tags: ["spicy", "quick", "batch"], serves: "4", keeps: "5 days fridge",
+    ingredients: ["1 cup ripe kimchi, chopped", "2 cups anchovy broth", "½ block firm tofu, cubed", "1 tsp garlic", "1 tsp sesame oil", "Kimchi juice from jar"],
+    method: ["Sauté kimchi in sesame oil, 2 min.", "Add broth + garlic + kimchi juice.", "Boil. Add tofu.", "Simmer 10 min. Salt if needed."] },
+  { id: "egg-soup", section: "soup", kr: "계란국", en: "Egg Drop Soup", desc: "Silky egg ribbons in anchovy broth.", time: "10 min", tags: ["quick"], serves: "2", keeps: "Best fresh",
+    ingredients: ["2 cups anchovy broth", "1 tsp soy sauce", "1 tsp garlic", "Pinch salt", "2 eggs, beaten", "1 green onion", "Sesame oil"],
+    method: ["Bring broth to boil with garlic + soy.", "Lower to gentle simmer.", "Slowly pour eggs in thin stream while stirring one direction.", "Cook 1 min. Top with green onion + sesame oil."] },
+
+  { id: "bulgogi", section: "protein", kr: "소불고기", en: "Beef Bulgogi", desc: "Thin-sliced ribeye marinated in pear, soy, garlic — the original.", time: "30 min", tags: ["batch", "freezer"], serves: "4", keeps: "4 days fridge / 1 month freezer",
+    ingredients: ["1 lb thinly sliced ribeye or bulgogi-cut beef", "3 tbsp soy sauce", "1 tbsp sugar or honey", "1 tbsp sesame oil", "2 tsp minced garlic", "½ tsp ginger paste", "½ Asian pear or apple, grated", "1 tsp gochugaru (optional)", "½ onion, sliced thin"],
+    method: ["Grate pear/apple into bowl. Mix in marinade.", "Add beef + onion. Coat well. Marinate 30 min.", "Cook on HIGH heat — don't crowd, work in batches. ~2–3 min total."],
+    note: "Use for: rice bowls, bibimbap, tacos, ramen topper, lettuce wraps." },
+  { id: "pork-bulgogi", section: "protein", kr: "돼지불고기", en: "Spicy Pork Bulgogi", desc: "Gochujang-marinated pork — bolder, punchier, cheaper.", time: "30 min", tags: ["spicy", "batch", "freezer"], serves: "4", keeps: "4 days fridge / 1 month freezer",
+    ingredients: ["1 lb pork shoulder, thinly sliced", "2 tbsp gochujang", "1 tbsp soy sauce", "1 tbsp sesame oil", "1 tsp sugar", "2 tsp garlic", "½ tsp ginger", "½ onion, sliced"],
+    method: ["Mix all marinade. Coat pork well.", "Marinate minimum 30 min.", "Cook on high heat, ~4–5 min."] },
+  { id: "soy-chicken", section: "protein", kr: "간장 닭고기", en: "Soy-Glazed Chicken Thighs", desc: "Oven-finished thighs in a sticky honey-soy glaze.", time: "25 min", tags: ["batch", "freezer"], serves: "4", keeps: "4 days fridge / 1 month freezer",
+    ingredients: ["4 boneless chicken thighs", "3 tbsp soy sauce", "1 tbsp honey", "1 tbsp sesame oil", "1 tsp garlic", "1 tsp ginger", "Optional: 1 tsp gochujang"],
+    method: ["Mix marinade. Coat chicken. Rest 15 min.", "Sear skin-side down in oven-safe pan, 5 min. Flip.", "Pour remaining marinade over chicken.", "Bake at 400°F for 15 min.", "Rest 5 min before slicing."] },
+  { id: "samgyeopsal", section: "protein", kr: "삼겹살 팬구이", en: "Pan-Fried Pork Belly", desc: "No marinade — just salt, high heat, and perfect fat.", time: "15 min", tags: [], serves: "2", keeps: "Best fresh",
+    ingredients: ["Pork belly slices, ¼ inch thick", "Salt + pepper", "Dipping sauce: 2 tbsp soy + 1 tsp sesame oil + green onion + gochugaru"],
+    method: ["Heat pan very hot. No oil needed.", "Season pork with salt + pepper.", "Sear 3–4 min per side until golden and crispy.", "Wrap in lettuce with garlic, kimchi, rice."] },
+  { id: "soboro", section: "protein", kr: "소보로", en: "Seasoned Ground Meat", desc: "Caramelized crumbled beef or pork, made in 15 min.", time: "15 min", tags: ["batch", "freezer", "quick"], serves: "4", keeps: "4 days fridge / 1 month freezer",
+    ingredients: ["½ lb ground beef or pork", "2 tbsp soy sauce", "1 tsp sugar", "1 tsp sesame oil", "1 tsp garlic", "½ tsp ginger", "Optional: 1 tsp gochujang"],
+    method: ["Brown ground meat, breaking apart constantly.", "When no pink remains, add sauce.", "Cook 3 min until caramelized."] },
+  { id: "tofu-braised", section: "protein", kr: "두부조림", en: "Braised Spicy Tofu", desc: "Pan-seared tofu simmered in chili-soy glaze.", time: "20 min", tags: ["veg", "spicy", "batch"], serves: "4", keeps: "4 days fridge",
+    ingredients: ["1 block firm tofu, sliced ½-inch rectangles", "2 tbsp soy sauce", "1 tbsp gochugaru", "1 tsp sugar", "1 tsp sesame oil", "1 tsp garlic", "¼ cup water", "Green onion"],
+    method: ["Pat tofu VERY dry — critical for searing.", "Pan-fry in hot oil until golden, 3 min per side.", "Push to side. Add garlic, cook 30 sec.", "Add sauce + water. Simmer until absorbed, 5 min.", "Top with green onion + sesame seeds."] },
+
+  { id: "egg-rice", section: "bowl", kr: "간장계란밥", en: "Butter Soy Egg Rice", desc: "Butter + soy + fried egg over hot rice — simple perfection.", time: "5 min", tags: ["quick"], serves: "1", keeps: "Eat immediately",
+    ingredients: ["1 bowl hot steamed rice", "1 tbsp unsalted butter", "1 tbsp soy sauce", "1 fried egg (runny yolk!)", "Drizzle sesame oil", "Green onion, sesame seeds, nori strips"],
+    method: ["Press butter into hot rice — melts immediately.", "Add soy sauce. Mix roughly.", "Place fried egg on top. Break yolk.", "Drizzle sesame oil. Add toppings."],
+    note: "Only works with HOT rice." },
+  { id: "tuna-mayo", section: "bowl", kr: "참치마요 덮밥", en: "Tuna Mayo Rice Bowl", desc: "Canned tuna, kewpie mayo, cucumber, nori over rice.", time: "5 min", tags: ["quick"], serves: "1", keeps: "Eat fresh",
+    ingredients: ["1 can tuna, drained", "2 tbsp Kewpie mayo", "½ tsp sesame oil", "Soy sauce to taste", "Cucumber, green onion, nori strips", "Optional: gochugaru, fried egg"],
+    method: ["Mix tuna with mayo, sesame oil, soy sauce.", "Pile over rice.", "Top with cucumber + green onion + nori."] },
+  { id: "bulgogi-bowl", section: "bowl", kr: "소불고기 덮밥", en: "Bulgogi Bowl", desc: "Reheated bulgogi and pan juices ladled over rice.", time: "5 min", tags: ["quick", "batch"], serves: "1", keeps: "Assemble fresh",
+    ingredients: ["Pre-made bulgogi", "Hot rice", "Optional: fried egg, banchan"],
+    method: ["Reheat bulgogi in pan with splash of water, 2 min.", "Ladle over rice. Pour pan juices over.", "Optional: fried egg on top."] },
+  { id: "soboro-bowl", section: "bowl", kr: "소보로 덮밥", en: "Ground Meat Bowl", desc: "Sweet-savory crumbled meat, fried egg, rice — weeknight staple.", time: "5 min", tags: ["quick", "batch"], serves: "1", keeps: "Assemble fresh",
+    ingredients: ["Pre-made soboro", "Hot rice", "1 fried egg", "Green onion, sesame seeds"],
+    method: ["Reheat soboro in microwave 60 sec.", "Spoon over rice. Make a well in center.", "Crack a fried egg into the well.", "Top with green onion + sesame seeds."] },
+  { id: "bibimbap", section: "bowl", kr: "비빔밥", en: "Bibimbap", desc: "All your banchan + protein + fried egg + gochujang, tossed.", time: "5 min", tags: ["quick"], serves: "1", keeps: "Assemble fresh",
+    ingredients: ["1 bowl rice", "Any 3 banchan", "Any protein", "1 fried egg", "1 tbsp gochujang", "Sesame oil drizzle"],
+    method: ["Arrange rice in bowl. Place banchan around edges.", "Put protein in center. Egg on top.", "Add gochujang + sesame oil.", "Mix thoroughly before eating."] },
+  { id: "oyakodon", section: "bowl", kr: "오야코동", en: "Oyakodon", desc: "Chicken and barely-set egg in dashi broth over rice.", time: "15 min", tags: [], serves: "2", keeps: "Best fresh",
+    ingredients: ["2 chicken thighs, bite-sized pieces", "3 eggs, lightly beaten", "½ onion, sliced thin", "3 tbsp soy sauce", "1 tbsp mirin (or 1 tsp sugar)", "1 tbsp sake or water", "½ cup dashi or chicken broth"],
+    method: ["Simmer onion in sauce + broth, 3 min.", "Add chicken. Cook until no pink, 5 min.", "Pour beaten eggs over. Do NOT stir.", "Cover. Cook 1–2 min — egg should be barely set.", "Slide gently over rice."] },
+  { id: "mapo", section: "bowl", kr: "마파두부 덮밥", en: "Mapo Tofu Bowl", desc: "Silky tofu in spicy-numbing sauce — Korean-Chinese fusion.", time: "20 min", tags: ["spicy"], serves: "2", keeps: "3 days fridge",
+    ingredients: ["1 block soft tofu, cubed", "¼ lb ground pork or beef (optional)", "2 tbsp gochujang", "1 tbsp soy sauce", "1 tsp garlic", "1 tsp ginger", "½ cup broth", "1 tsp cornstarch + 2 tbsp water (slurry)", "Sesame oil, green onion"],
+    method: ["Brown ground meat.", "Add garlic + ginger, cook 1 min.", "Add gochujang, stir 1 min.", "Add broth + tofu. Simmer 5 min gently.", "Pour in slurry. Simmer until thick, 2 min.", "Finish with sesame oil. Serve over rice."] },
+
+  { id: "korean-curry", section: "curry", kr: "한국식 카레", en: "Korean Curry", desc: "Potato, carrot, onion, protein in rich curry roux — the batch king.", time: "35 min", tags: ["batch", "freezer"], serves: "5–6", keeps: "5 days fridge / 3 months freezer",
+    ingredients: ["1 lb protein (chicken thigh, beef chuck, or tofu)", "2 carrots, chunked", "3 medium potatoes, chunked", "1 large onion, chunked", "3–4 cups water or broth", "1 box Korean curry roux (Ottogi or S&B)", "1 tsp garlic", "Oil", "Optional: 1 grated apple"],
+    method: ["Heat oil. Brown protein 3 min. Set aside.", "Sauté onion until soft. Add garlic.", "Add carrots + potatoes. Stir to coat.", "Add broth. Boil 15 min until veg are tender.", "REDUCE HEAT TO LOW.", "Break in roux blocks. Stir until dissolved.", "Add protein back. Simmer 5–10 min until thick."],
+    note: "Gets better day 2. For freezer portions, cook potatoes separately." },
+  { id: "katsu-curry", section: "curry", kr: "카츠카레", en: "Katsu Curry", desc: "Crispy panko cutlet over rice with curry sauce.", time: "30 min", tags: [], serves: "2", keeps: "Best fresh",
+    ingredients: ["Korean curry (above)", "Frozen tonkatsu (Weee!)", "Or scratch: chicken/pork + flour + egg + panko"],
+    method: ["Cheat: bake frozen tonkatsu, 15 min at 400°F. Slice. Place on curry rice.", "Scratch: pound meat even. Salt+pepper → flour → egg → panko.", "Pan-fry in ½ inch oil, 3–4 min per side.", "Slice. Serve over curry rice."] },
+
+  { id: "veg-jook", section: "noodle", kr: "야채 달걀죽", en: "Veggie Egg Congee", desc: "Silky rice porridge with soft egg and whatever veg you have.", time: "30 min", tags: ["veg", "batch"], serves: "3", keeps: "3 days fridge",
+    ingredients: ["½ cup uncooked rice OR 1 cup cooked rice", "3 cups water or broth", "1 tsp sesame oil", "1 tsp garlic", "Any veg: frozen mixed, mushrooms, zucchini", "2 eggs, beaten", "Soy sauce, salt"],
+    method: ["Simmer rice in broth ~25 min until thick (10 min if cooked).", "Add veg. Cook 5 min.", "Pour beaten eggs in slowly while stirring. Cook 2 min.", "Season. Drizzle sesame oil."] },
+  { id: "tuna-jook", section: "noodle", kr: "참치죽", en: "Tuna Congee", desc: "Clean congee base with flaked canned tuna.", time: "30 min", tags: ["quick", "batch"], serves: "3", keeps: "3 days fridge",
+    ingredients: ["Same base as Veggie Egg Congee", "1 can drained tuna instead of eggs"],
+    method: ["Follow Veggie Egg Congee base.", "Stir in drained tuna at end.", "Top with green onion + nori strips."] },
+  { id: "chicken-jook", section: "noodle", kr: "닭죽", en: "Chicken Porridge", desc: "Long-simmered chicken pulled into rich rice porridge.", time: "45 min", tags: ["batch", "freezer"], serves: "4", keeps: "4 days fridge / 1 month freezer",
+    ingredients: ["2 chicken thighs", "1 cup uncooked rice", "6 cups water or broth", "1 tsp garlic", "1 tsp sesame oil", "Salt, white pepper, green onion"],
+    method: ["Combine chicken + garlic in broth. Boil, skim foam.", "Reduce to medium. Cook 20 min.", "Remove chicken. Shred.", "Add rice to broth. Cook 20 min, stirring.", "Return chicken. Cook 5 more min.", "Season. Drizzle sesame oil."],
+    note: "Top with soy-braised egg + kimchi + drizzle of gochujang." },
+  { id: "japchae", section: "noodle", kr: "잡채", en: "Glass Noodles (Japchae)", desc: "Chewy glass noodles tossed with beef, carrot, spinach in sesame soy.", time: "35 min", tags: ["batch"], serves: "4", keeps: "3 days fridge",
+    ingredients: ["100g glass noodles (당면), soaked 30 min", "½ lb beef, sliced thin", "1 carrot, julienned", "1 onion, sliced", "2 cups spinach", "3–4 shiitake, sliced", "Sauce: 3 tbsp soy + 1 tbsp sugar + 1 tbsp sesame oil + 1 tsp garlic"],
+    method: ["Boil noodles 5–6 min until chewy-tender. Drain, rinse cold.", "Toss noodles with 2 tbsp soy + 1 tbsp sesame oil + sugar while hot.", "Cook each veg separately with oil + pinch salt. Set aside.", "Cook beef with 1 tbsp soy + garlic.", "Combine all in large bowl. Add remaining sauce. Toss thoroughly.", "Sprinkle sesame seeds."],
+    note: "Each component cooked separately = restaurant texture." },
+  { id: "rabokki", section: "noodle", kr: "라볶이", en: "Rabokki", desc: "Ramen noodles + tteok in spicy gochujang broth.", time: "15 min", tags: ["spicy"], serves: "2", keeps: "Best fresh",
+    ingredients: ["1 cup tteok (rice cakes — frozen)", "1 pack instant ramen (noodles only)", "1.5 cups water", "2 tbsp gochujang", "1 tbsp soy sauce", "1 tsp sugar", "1 tsp garlic", "Optional: fish cake, hard-boiled egg, green onion"],
+    method: ["Mix sauce in pot. Add water. Boil.", "Add tteok. Cook 5 min.", "Add ramen noodles. Cook 3 min more.", "Adjust sauce — gochujang for heat, sugar for balance."] },
+
+  { id: "kimchi-rice", section: "fusion", kr: "김치볶음밥", en: "Kimchi Fried Rice", desc: "Ripe kimchi, day-old rice, high heat, fried egg on top.", time: "15 min", tags: ["spicy", "quick"], serves: "2", keeps: "Eat fresh",
+    ingredients: ["2 cups cold day-old rice", "1 cup ripe kimchi, chopped", "1 tbsp kimchi juice", "1 tbsp gochujang", "1 tsp soy sauce", "1 tsp sesame oil", "2 cloves garlic", "Optional: spam, tuna, leftover bulgogi", "1 fried egg"],
+    method: ["Cook meat/spam crispy. Set aside.", "Sauté garlic + kimchi in oil on HIGH heat, 2 min.", "Add gochujang + soy. Stir 1 min.", "Add rice + kimchi juice. Stir-fry on HIGH, pressing rice against pan.", "Don't stir constantly — let it get slightly crispy.", "Add sesame oil. Toss.", "Top with fried egg."],
+    note: "Rice MUST be cold day-old. Plan ahead." },
+  { id: "bulgogi-tacos", section: "fusion", kr: "불고기 타코", en: "Bulgogi Tacos", desc: "Seared bulgogi in flour tortillas with gochujang mayo and pickled cucumber.", time: "10 min", tags: ["quick"], serves: "2", keeps: "Assemble fresh",
+    ingredients: ["Flour tortillas (street taco size)", "Reheated bulgogi", "Pickled cucumbers", "Shredded cabbage or romaine", "Gochujang mayo (2 tbsp mayo + 1 tbsp gochujang + 1 tsp lime + ½ tsp sesame oil)", "Optional: cilantro, lime, sesame seeds"],
+    method: ["Warm tortillas over flame for char.", "Reheat bulgogi. Pile onto tortilla.", "Top with cabbage, cucumber, gochujang mayo.", "Squeeze lime. Eat immediately."] },
+  { id: "gochujang-pasta", section: "fusion", kr: "고추장 파스타", en: "Gochujang Cream Pasta", desc: "Gochujang butter cream sauce over pasta, parmesan, fried egg.", time: "20 min", tags: ["spicy"], serves: "2", keeps: "Best fresh",
+    ingredients: ["2 servings pasta", "2 tbsp butter", "3 cloves garlic", "1 tbsp gochujang", "2 tbsp heavy cream", "½ cup pasta water (RESERVE!)", "Parmesan, green onion, fried egg"],
+    method: ["Cook pasta al dente. Reserve ½ cup pasta water.", "Same pan: melt butter. Sauté garlic 1 min.", "Add gochujang. Stir into butter, cook 1 min.", "Add cream. Stir until combined.", "Add pasta + splash of pasta water. Toss vigorously.", "Add more pasta water until glossy.", "Top with parmesan + green onion + fried egg."] },
+  { id: "kimchi-quesa", section: "fusion", kr: "김치 케사디야", en: "Kimchi Quesadilla", desc: "Kimchi + cheese + spam in a crispy flour tortilla.", time: "10 min", tags: ["quick", "spicy"], serves: "1", keeps: "Eat fresh",
+    ingredients: ["1 large flour tortilla", "½ cup shredded cheese", "½ cup ripe kimchi, squeezed dry", "Optional: spam, tuna, leftover bulgogi"],
+    method: ["Layer half cheese on tortilla.", "Add kimchi + protein. Top with remaining cheese.", "Fold tortilla in half.", "Pan-fry medium 2–3 min per side until golden.", "Slice. Dip in gochujang mayo or sour cream."] },
+
+  { id: "ramyun", section: "lazy", kr: "신라면 업그레이드", en: "Ramyun Glow-Up", desc: "Instant ramen, elevated — choose your toppings combination.", time: "10 min", tags: ["quick", "spicy"], serves: "1", keeps: "Eat immediately",
+    ingredients: ["1 pack instant ramen (Shin, Buldak, etc.)", "Pick 2: runny egg / butter+garlic / kimchi+sesame oil / cheese / bulgogi / tuna mayo / nori+sesame"],
+    method: ["Cook ramyun base per package.", "Add 2 of: egg (1 min before done, don't stir) · butter+garlic · kimchi+sesame oil · cheese melted in · bulgogi reheated in broth · tuna mayo on top · nori + sesame.", "Best combo: egg + butter + kimchi."] },
+  { id: "dumplings", section: "lazy", kr: "만두 판구이", en: "Pan-Fried Dumplings", desc: "Frozen dumplings, crispy bottom, steamed top.", time: "8 min", tags: ["quick"], serves: "1", keeps: "Eat fresh",
+    ingredients: ["Frozen dumplings (만두)", "Oil", "Dipping sauce: soy sauce + vinegar + gochugaru"],
+    method: ["Oil in pan, medium-high heat.", "Arrange dumplings flat-side down. Cook 2 min until golden.", "Add ¼ cup water. Cover IMMEDIATELY. Steam 4–5 min.", "Remove lid. Let water evaporate, 1 min."] },
+  { id: "udon", section: "lazy", kr: "냉동 우동", en: "Frozen Udon", desc: "The ultimate lazy meal — 5 minutes, three sauce options.", time: "5 min", tags: ["quick", "veg"], serves: "1", keeps: "Eat fresh",
+    ingredients: ["Frozen udon", "Choose: ganjang (soy+sesame oil+green onion+egg) / gochujang (gochujang+soy+sesame oil) / curry (leftover curry sauce reheated)"],
+    method: ["Boil frozen udon 3 min.", "Drain. Toss with chosen sauce.", "Top with soft egg if ganjang style."] }
+];
+
+// ============================================
+// THEME MANAGEMENT
+// ============================================
+const THEMES = ['modern', 'editorial', 'cozy'];
+function setTheme(name) {
+  if (!THEMES.includes(name)) name = 'modern';
+  document.documentElement.dataset.theme = name;
+  localStorage.setItem('kitchen.theme', name);
+  document.querySelectorAll('.theme-card').forEach(c => {
+    c.classList.toggle('active', c.dataset.theme === name);
+  });
+}
+const savedTheme = localStorage.getItem('kitchen.theme') || 'modern';
+setTheme(savedTheme);
+
+// ============================================
+// SHOPPING LIST
+// ============================================
+let shopping = JSON.parse(localStorage.getItem('kitchen.shopping') || '[]');
+
+const CATEGORIES = {
+  produce: { label: "🥬 Produce", keywords: /zucchini|cucumber|spinach|mushroom|onion|garlic|ginger|green onion|potato|carrot|apple|pear|cabbage|sprout|cilantro|lime|lemon|tomato|lettuce|chili|herb|leek|scallion/i },
+  protein: { label: "🍖 Protein", keywords: /beef|pork|chicken|tofu|fish cake|anchovies|tuna|spam|egg(?!plant)|salmon|shrimp|sausage|hot dog/i },
+  pantry: { label: "🥫 Pantry & Sauces", keywords: /gochujang|doenjang|gochugaru|sesame|soy sauce|sugar|honey|salt|mirin|vinegar|butter|mayo|cornstarch|flour|cream|cheese|sake|oil|pepper|broth|curry roux|baked beans/i },
+  noodles: { label: "🍜 Noodles & Grains", keywords: /\brice\b|\branvov\b|ramen|noodle|tteok|pasta|tortilla|udon|당면|naan|panko|bread/i },
+  frozen: { label: "❄️ Frozen", keywords: /frozen|dumpling|tonkatsu|만두|edamame/i },
+  dried: { label: "🌊 Dried Goods", keywords: /dashima|miyeok|nori|seaweed|dried/i },
+  fermented: { label: "🥬 Kimchi & Fermented", keywords: /kimchi|miso/i }
+};
+
+function categorize(text) {
+  const lower = text.toLowerCase();
+  for (const [key, def] of Object.entries(CATEGORIES)) {
+    if (def.keywords.test(lower)) return key;
+  }
+  return 'other';
+}
+
+function saveShopping() {
+  localStorage.setItem('kitchen.shopping', JSON.stringify(shopping));
+  updateBadge();
+}
+
+function updateBadge() {
+  const remaining = shopping.filter(i => !i.checked).length;
+  const badge = document.getElementById('fab-badge');
+  badge.textContent = remaining;
+  badge.classList.toggle('empty', shopping.length === 0);
+  document.getElementById('list-meta').textContent = shopping.length === 0 ? 'Empty' : `${remaining} remaining · ${shopping.length} total`;
+}
+
+function addItem(text, source = '') {
+  const cleanText = text.trim();
+  if (!cleanText) return;
+  shopping.push({
+    id: Date.now() + Math.random(),
+    text: cleanText,
+    source,
+    category: categorize(cleanText),
+    checked: false
+  });
+  saveShopping();
+  renderShopping();
+}
+
+function addRecipeIngredients(recipeId) {
+  const r = RECIPES.find(x => x.id === recipeId);
+  if (!r) return 0;
+  r.ingredients.forEach(i => addItem(i, r.kr));
+  return r.ingredients.length;
+}
+
+function toggleItem(id) {
+  const item = shopping.find(i => i.id === id);
+  if (item) {
+    item.checked = !item.checked;
+    saveShopping();
+    renderShopping();
+  }
+}
+
+function removeItem(id) {
+  shopping = shopping.filter(i => i.id !== id);
+  saveShopping();
+  renderShopping();
+}
+
+function clearChecked() {
+  shopping = shopping.filter(i => !i.checked);
+  saveShopping();
+  renderShopping();
+  showToast("Cleared checked items");
+}
+
+function clearAll() {
+  if (shopping.length === 0) return;
+  if (confirm(`Clear all ${shopping.length} items?`)) {
+    shopping = [];
+    saveShopping();
+    renderShopping();
+    showToast("Cleared list");
+  }
+}
+
+function copyList() {
+  if (shopping.length === 0) {
+    showToast("List is empty");
+    return;
+  }
+  const grouped = {};
+  shopping.forEach(i => {
+    if (!grouped[i.category]) grouped[i.category] = [];
+    grouped[i.category].push(i);
+  });
+  let text = "🛒 Shopping List\n\n";
+  for (const [cat, items] of Object.entries(grouped)) {
+    const label = CATEGORIES[cat]?.label || "Other";
+    text += `${label}\n`;
+    items.forEach(i => {
+      text += `${i.checked ? '✓' : '·'} ${i.text}\n`;
+    });
+    text += '\n';
+  }
+  navigator.clipboard.writeText(text).then(() => {
+    showToast("Copied to clipboard");
+  }).catch(() => {
+    showToast("Couldn't copy");
+  });
+}
+
+function renderShopping() {
+  const body = document.getElementById('sheet-body');
+  if (shopping.length === 0) {
+    body.innerHTML = `
+      <div class="empty-list">
+        <div class="kr">장바구니가 비었어요</div>
+        <div>Tap "Add to list" on any recipe to start</div>
+      </div>
+    `;
+    return;
+  }
+  const grouped = {};
+  shopping.forEach(i => {
+    if (!grouped[i.category]) grouped[i.category] = [];
+    grouped[i.category].push(i);
+  });
+  const order = ['produce', 'protein', 'fermented', 'pantry', 'noodles', 'frozen', 'dried', 'other'];
+  let html = '';
+  for (const cat of order) {
+    const items = grouped[cat];
+    if (!items || items.length === 0) continue;
+    const label = CATEGORIES[cat]?.label || "🧂 Other";
+    html += `<div class="cat-group"><div class="cat-head">${label}</div>`;
+    items.forEach(i => {
+      html += `
+        <div class="item ${i.checked ? 'checked' : ''}" data-id="${i.id}">
+          <input type="checkbox" ${i.checked ? 'checked' : ''} data-id="${i.id}">
+          <div class="item-text">
+            ${escapeHtml(i.text)}
+            ${i.source ? `<span class="item-source">from ${escapeHtml(i.source)}</span>` : ''}
+          </div>
+          <button class="item-remove" data-id="${i.id}">✕</button>
+        </div>
+      `;
+    });
+    html += `</div>`;
+  }
+  body.innerHTML = html;
+  body.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', e => {
+      e.stopPropagation();
+      toggleItem(parseFloat(cb.dataset.id));
+    });
+  });
+  body.querySelectorAll('.item-remove').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      removeItem(parseFloat(btn.dataset.id));
+    });
+  });
+  body.querySelectorAll('.item').forEach(item => {
+    item.addEventListener('click', e => {
+      if (e.target.matches('input, button')) return;
+      toggleItem(parseFloat(item.dataset.id));
+    });
+  });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ============================================
+// TOAST
+// ============================================
+let toastTimeout;
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+// ============================================
+// RECIPE RENDERING
+// ============================================
+const main = document.getElementById('main');
+const empty = document.getElementById('empty');
+const search = document.getElementById('search');
+const filters = document.getElementById('filters');
+const overlay = document.getElementById('overlay');
+const modal = document.getElementById('modal');
+const modalBody = document.getElementById('modal-body');
+const closeBtn = document.getElementById('close');
+const surpriseBtn = document.getElementById('surprise');
+
+let activeFilter = 'all';
+let searchTerm = '';
+
+function tagBadge(tag) {
+  const labels = { quick: '⚡ Quick', batch: '🔄 Batch', freezer: '❄️ Freezer', spicy: '🌶 Spicy', veg: '🌱 Veggie' };
+  return `<span class="tag ${tag}">${labels[tag] || tag}</span>`;
+}
+
+function buildSections() {
+  let html = '';
+  for (const [key, info] of Object.entries(SECTIONS)) {
+    const recipes = RECIPES.filter(r => r.section === key);
+    html += `
+      <section class="section" data-section="${key}">
+        <div class="section-header">
+          <span class="kr">${info.kr}</span>
+          <span class="en">${info.en}</span>
+        </div>
+        <div class="grid">
+          ${recipes.map(r => cardHtml(r)).join('')}
+        </div>
+      </section>
+    `;
+  }
+  main.innerHTML = html;
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => openRecipe(card.dataset.id));
+  });
+}
+
+function cardHtml(r) {
+  return `
+    <div class="card" data-id="${r.id}" data-tags="${r.tags.join(' ')}" data-search="${(r.kr + ' ' + r.en + ' ' + r.desc).toLowerCase()}">
+      <div class="card-header">
+        <div class="card-name">
+          <span class="kr">${r.kr}</span>
+          <span class="en">${r.en}</span>
+        </div>
+        <div class="card-meta">${r.time}</div>
+      </div>
+      <div class="card-desc">${r.desc}</div>
+      <div class="card-tags">
+        ${r.tags.map(tagBadge).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function openRecipe(id) {
+  const r = RECIPES.find(x => x.id === id);
+  if (!r) return;
+  modalBody.innerHTML = `
+    <div class="recipe-name-kr">${r.kr}</div>
+    <div class="recipe-name-en">${r.en}</div>
+    <div class="recipe-desc">${r.desc}</div>
+    <div class="recipe-meta">
+      <div class="meta-item"><span class="label">Time</span><span class="value">${r.time}</span></div>
+      <div class="meta-item"><span class="label">Serves</span><span class="value">${r.serves}</span></div>
+      <div class="meta-item"><span class="label">Keeps</span><span class="value">${r.keeps}</span></div>
+    </div>
+    <h3>
+      Ingredients
+      <button class="add-list-btn" data-recipe="${r.id}">+ Add to list</button>
+    </h3>
+    <ul>${r.ingredients.map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>
+    <h3>Method</h3>
+    <ol>${r.method.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ol>
+    ${r.note ? `<div class="note">${escapeHtml(r.note)}</div>` : ''}
+  `;
+  modalBody.querySelector('.add-list-btn').addEventListener('click', e => {
+    const count = addRecipeIngredients(e.target.dataset.recipe);
+    e.target.classList.add('added');
+    e.target.textContent = `✓ Added ${count}`;
+    showToast(`Added ${count} items from ${r.kr}`);
+    setTimeout(() => {
+      e.target.classList.remove('added');
+      e.target.textContent = '+ Add to list';
+    }, 2000);
+  });
+  overlay.classList.add('open');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modal.scrollTop = 0;
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function applyFilters() {
+  let visibleCount = 0;
+  document.querySelectorAll('.card').forEach(card => {
+    const tags = card.dataset.tags.split(' ');
+    const text = card.dataset.search;
+    const matchesFilter = activeFilter === 'all' || tags.includes(activeFilter);
+    const matchesSearch = !searchTerm || text.includes(searchTerm);
+    if (matchesFilter && matchesSearch) {
+      card.classList.remove('hidden');
+      visibleCount++;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  document.querySelectorAll('.section').forEach(section => {
+    const visible = section.querySelectorAll('.card:not(.hidden)').length;
+    section.classList.toggle('hidden', visible === 0);
+  });
+  empty.classList.toggle('show', visibleCount === 0);
+}
+
+filters.addEventListener('click', e => {
+  if (e.target.matches('.chip')) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    e.target.classList.add('active');
+    activeFilter = e.target.dataset.filter;
+    applyFilters();
+  }
+});
+
+search.addEventListener('input', e => {
+  searchTerm = e.target.value.toLowerCase().trim();
+  applyFilters();
+});
+
+surpriseBtn.addEventListener('click', () => {
+  const visible = Array.from(document.querySelectorAll('.card:not(.hidden)'));
+  const pool = visible.length > 0 ? visible : Array.from(document.querySelectorAll('.card'));
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  openRecipe(pick.dataset.id);
+});
+
+overlay.addEventListener('click', closeModal);
+closeBtn.addEventListener('click', closeModal);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeSheet();
+    closeSettings();
+  }
+});
+
+// ============================================
+// SHOPPING SHEET CONTROLS
+// ============================================
+const fab = document.getElementById('fab');
+const sheet = document.getElementById('sheet');
+const sheetOverlay = document.getElementById('sheet-overlay');
+const addInput = document.getElementById('add-input');
+const addBtn = document.getElementById('add-custom');
+
+function openSheet() {
+  sheetOverlay.classList.add('open');
+  sheet.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderShopping();
+}
+function closeSheet() {
+  sheetOverlay.classList.remove('open');
+  sheet.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+fab.addEventListener('click', openSheet);
+sheetOverlay.addEventListener('click', closeSheet);
+
+addBtn.addEventListener('click', () => {
+  const v = addInput.value.trim();
+  if (v) {
+    addItem(v);
+    addInput.value = '';
+    showToast("Added");
+  }
+});
+addInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') addBtn.click();
+});
+
+document.getElementById('clear-checked').addEventListener('click', clearChecked);
+document.getElementById('clear-all').addEventListener('click', clearAll);
+document.getElementById('copy-list').addEventListener('click', copyList);
+
+// ============================================
+// SETTINGS SHEET CONTROLS
+// ============================================
+const settingsBtn = document.getElementById('settings-btn');
+const settingsSheet = document.getElementById('settings-sheet');
+const settingsOverlay = document.getElementById('settings-overlay');
+
+function openSettings() {
+  settingsOverlay.classList.add('open');
+  settingsSheet.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSettings() {
+  settingsOverlay.classList.remove('open');
+  settingsSheet.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+settingsBtn.addEventListener('click', openSettings);
+settingsOverlay.addEventListener('click', closeSettings);
+
+document.querySelectorAll('.theme-card').forEach(card => {
+  card.addEventListener('click', () => {
+    setTheme(card.dataset.theme);
+    showToast(`Theme: ${card.dataset.theme}`);
+  });
+});
+
+// INIT
+buildSections();
+updateBadge();
+</script>
+</body>
+</html>
