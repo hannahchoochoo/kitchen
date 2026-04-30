@@ -9,7 +9,7 @@
 <title>한나의 키친 · Hannah's Kitchen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=DM+Sans:wght@400;500;600&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=DM+Sans:wght@400;500;600&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Shippori+Mincho:wght@400;500;600&family=Noto+Serif+KR:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
   :root {
@@ -44,6 +44,49 @@
     --display-tracking: 0;
     --display-weight: 400;
   }
+  [data-theme="quiet"] {
+    --bg: #FAFAF7;
+    --bg-soft: #F2F1ED;
+    --ink: #1A1A1A;
+    --ink-soft: #6B6B68;
+    --line: #E8E6E0;
+    --gochujang: #3A3633;
+    --tan: #8E8B85;
+    --gold: #8E8B85;
+    --green: #6B6B68;
+    --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+    --font-kr: 'Shippori Mincho', 'Noto Serif KR', serif;
+    --font-body: 'Cormorant Garamond', Georgia, serif;
+    --display-tracking: 0.01em;
+    --display-weight: 500;
+  }
+  [data-theme="quiet"] body { font-size: 1.02rem; line-height: 1.7; }
+  [data-theme="quiet"] header .ornament { display: none; }
+  [data-theme="quiet"] header { padding: 5rem 1.5rem 2.5rem; }
+  [data-theme="quiet"] header h1 { font-weight: 500; letter-spacing: 0.04em; }
+  [data-theme="quiet"] header .en { letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; font-weight: 500; }
+  [data-theme="quiet"] header .tagline { font-style: italic; color: var(--ink-soft); }
+  [data-theme="quiet"] .card-name .kr { font-weight: 500; letter-spacing: 0.02em; }
+  [data-theme="quiet"] .card-name .en { font-style: italic; }
+  [data-theme="quiet"] .tag {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+  [data-theme="quiet"] .tag.spicy,
+  [data-theme="quiet"] .tag.veg,
+  [data-theme="quiet"] .tag.batch,
+  [data-theme="quiet"] .tag.freezer,
+  [data-theme="quiet"] .tag.quick {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+  [data-theme="quiet"] .fab { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  [data-theme="quiet"] .chip { letter-spacing: 0.06em; font-style: italic; }
+  [data-theme="quiet"] .section-header { letter-spacing: 0.08em; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -659,6 +702,8 @@
   .theme-card[data-preview="editorial"] .preview-en { font-family: 'Fraunces', serif; }
   .theme-card[data-preview="cozy"] .preview-kr { font-family: 'Gowun Dodum', sans-serif; font-weight: 400; }
   .theme-card[data-preview="cozy"] .preview-en { font-family: 'DM Serif Display', serif; }
+  .theme-card[data-preview="quiet"] .preview-kr { font-family: 'Shippori Mincho', 'Noto Serif KR', serif; font-weight: 500; letter-spacing: 0.02em; }
+  .theme-card[data-preview="quiet"] .preview-en { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; }
 
   /* TOAST */
   .toast {
@@ -787,13 +832,18 @@
     <span class="meta">Choose your vibe</span>
   </div>
   <div class="sheet-body">
-    <div class="theme-card" data-theme="modern" data-preview="modern">
-      <div class="name">Modern</div>
+    <div class="theme-card" data-theme="quiet" data-preview="quiet">
+      <div class="name">Quiet</div>
       <div class="preview-kr">한나의 키친</div>
       <div class="preview-en">Hannah's Kitchen</div>
     </div>
     <div class="theme-card" data-theme="editorial" data-preview="editorial">
       <div class="name">Editorial</div>
+      <div class="preview-kr">한나의 키친</div>
+      <div class="preview-en">Hannah's Kitchen</div>
+    </div>
+    <div class="theme-card" data-theme="modern" data-preview="modern">
+      <div class="name">Modern</div>
       <div class="preview-kr">한나의 키친</div>
       <div class="preview-en">Hannah's Kitchen</div>
     </div>
@@ -983,16 +1033,16 @@ const RECIPES = [
 // ============================================
 // THEME MANAGEMENT
 // ============================================
-const THEMES = ['modern', 'editorial', 'cozy'];
+const THEMES = ['quiet', 'modern', 'editorial', 'cozy'];
 function setTheme(name) {
-  if (!THEMES.includes(name)) name = 'modern';
+  if (!THEMES.includes(name)) name = 'quiet';
   document.documentElement.dataset.theme = name;
   localStorage.setItem('kitchen.theme.v2', name);
   document.querySelectorAll('.theme-card').forEach(c => {
     c.classList.toggle('active', c.dataset.theme === name);
   });
 }
-const savedTheme = localStorage.getItem('kitchen.theme.v2') || 'editorial';
+const savedTheme = localStorage.getItem('kitchen.theme.v2') || 'quiet';
 setTheme(savedTheme);
 
 // ============================================
