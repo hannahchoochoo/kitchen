@@ -62,10 +62,35 @@
   }
   [data-theme="quiet"] body { font-size: 1.02rem; line-height: 1.7; }
   [data-theme="quiet"] header .ornament { display: none; }
-  [data-theme="quiet"] header { padding: 5rem 1.5rem 2.5rem; }
-  [data-theme="quiet"] header h1 { font-weight: 500; letter-spacing: 0.04em; }
-  [data-theme="quiet"] header .en { letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; font-weight: 500; }
-  [data-theme="quiet"] header .tagline { font-style: italic; color: var(--ink-soft); }
+  [data-theme="quiet"] header {
+    text-align: left;
+    padding: 5rem 2rem 3rem;
+  }
+  [data-theme="quiet"] header h1 {
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+  }
+  [data-theme="quiet"] header .en {
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 500;
+    font-style: normal;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  [data-theme="quiet"] header .tagline {
+    font-style: italic;
+    color: var(--ink-soft);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.95rem;
+    font-weight: 400;
+  }
+  [data-theme="quiet"] .card { padding: 0.9rem 0; }
+  [data-theme="quiet"] .card:hover { padding-left: 0.4rem; }
+  [data-theme="quiet"] .fab { box-shadow: none; border: 1px solid var(--ink); }
   [data-theme="quiet"] .card-name .kr { font-weight: 500; letter-spacing: 0.02em; }
   [data-theme="quiet"] .card-name .en { font-style: italic; }
   [data-theme="quiet"] .tag {
@@ -771,11 +796,11 @@
   <input type="search" class="search" id="search" placeholder="Search dishes...">
   <div class="filters" id="filters">
     <button class="chip active" data-filter="all">All</button>
-    <button class="chip" data-filter="quick">⚡ Quick</button>
-    <button class="chip" data-filter="batch">🔄 Batch</button>
-    <button class="chip" data-filter="freezer">❄️ Freezer</button>
-    <button class="chip" data-filter="spicy">🌶 Spicy</button>
-    <button class="chip" data-filter="veg">🌱 Veggie</button>
+    <button class="chip" data-filter="quick">Quick</button>
+    <button class="chip" data-filter="batch">Batch</button>
+    <button class="chip" data-filter="freezer">Freezer</button>
+    <button class="chip" data-filter="spicy">Spicy</button>
+    <button class="chip" data-filter="veg">Veggie</button>
     <button class="picker" id="surprise">✨ Surprise</button>
   </div>
 </div>
@@ -1251,7 +1276,7 @@ let activeFilter = 'all';
 let searchTerm = '';
 
 function tagBadge(tag) {
-  const labels = { quick: '⚡ Quick', batch: '🔄 Batch', freezer: '❄️ Freezer', spicy: '🌶 Spicy', veg: '🌱 Veggie' };
+  const labels = { quick: 'Quick', batch: 'Batch', freezer: 'Freezer', spicy: 'Spicy', veg: 'Veggie' };
   return `<span class="tag ${tag}">${labels[tag] || tag}</span>`;
 }
 
