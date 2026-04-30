@@ -701,8 +701,8 @@
   @media (min-width: 768px) {
     .controls { padding: 1.25rem 2rem; }
     main { padding: 3rem 2rem; }
-    .sheet { max-width: 600px; left: 50%; transform: translate(-50%, 100%); border-radius: 24px; bottom: 1rem; }
-    .sheet.open { transform: translate(-50%, 0); }
+    .sheet { max-width: 600px; left: 50%; transform: translate(-50%, calc(100% + 2rem)); border-radius: 24px; bottom: 1rem; box-shadow: none; }
+    .sheet.open { transform: translate(-50%, 0); box-shadow: 0 -8px 32px rgba(31, 27, 22, 0.2); }
   }
   @media (max-width: 480px) {
     header { padding: 2.5rem 1rem 1.5rem; }
@@ -987,12 +987,12 @@ const THEMES = ['modern', 'editorial', 'cozy'];
 function setTheme(name) {
   if (!THEMES.includes(name)) name = 'modern';
   document.documentElement.dataset.theme = name;
-  localStorage.setItem('kitchen.theme', name);
+  localStorage.setItem('kitchen.theme.v2', name);
   document.querySelectorAll('.theme-card').forEach(c => {
     c.classList.toggle('active', c.dataset.theme === name);
   });
 }
-const savedTheme = localStorage.getItem('kitchen.theme') || 'modern';
+const savedTheme = localStorage.getItem('kitchen.theme.v2') || 'editorial';
 setTheme(savedTheme);
 
 // ============================================
@@ -1181,7 +1181,7 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 1200);
 }
 
 // ============================================
@@ -1270,11 +1270,10 @@ function openRecipe(id) {
     const count = addRecipeIngredients(e.target.dataset.recipe);
     e.target.classList.add('added');
     e.target.textContent = `✓ Added ${count}`;
-    showToast(`Added ${count} items from ${r.kr}`);
     setTimeout(() => {
       e.target.classList.remove('added');
       e.target.textContent = '+ Add to list';
-    }, 2000);
+    }, 1400);
   });
   overlay.classList.add('open');
   modal.classList.add('open');
@@ -1369,7 +1368,6 @@ addBtn.addEventListener('click', () => {
   if (v) {
     addItem(v);
     addInput.value = '';
-    showToast("Added");
   }
 });
 addInput.addEventListener('keydown', e => {
